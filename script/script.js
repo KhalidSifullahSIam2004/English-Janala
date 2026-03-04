@@ -62,7 +62,7 @@ const displayWords = (data) => {
         </p>
         <div class="flex justify-between items-center">
           <button onclick="loadWordDetails(${singleData.id})" class="btn bg-sky-100 hover:bg-blue-400"><i class="fa-solid fa-circle-info"></i></button>
-          <button class="btn bg-sky-100 hover:bg-blue-400"><i class="fa-solid fa-volume-high"></i></button>
+          <button onclick="pronounceWord('${singleData.word}')" class="btn bg-sky-100 hover:bg-blue-400"><i class="fa-solid fa-volume-high"></i></button>
         </div>
       </div>
     `;
@@ -131,3 +131,8 @@ document.getElementById('search-btn').addEventListener('click', async () => {
 }
 );
 
+function pronounceWord(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-EN"; // English
+  window.speechSynthesis.speak(utterance);
+}
