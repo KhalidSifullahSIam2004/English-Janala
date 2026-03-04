@@ -21,6 +21,7 @@ const displayLessons = (data) => {
 };
 
 const loadLevelWords = async (levelNo) => {
+  manageSpinner(true);
   const res = await fetch(`https://openapi.programming-hero.com/api/level/${levelNo}`);
   const object = await res.json();
   const data = object.data;
@@ -43,10 +44,11 @@ const displayWords = (data) => {
     wordsSection.innerHTML = `
       <div class="text-center col-span-full py-16 space-y-3">
         <img src="./assets/alert-error.png" class="mx-auto">
-        <p class="text-[#79716bFF] font-bangla">No vocabulary found in this lesson.</p>
-        <h2 class="font-bangla font-medium text-3xl">Try another lesson.</h2>
+        <p class="text-[#79716bFF] font-bangla">এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
+        <h2 class="font-bangla font-medium text-3xl">নেক্সট Lesson এ যান</h2>
       </div>
     `;
+      manageSpinner(false);
     return;
   }
 
@@ -65,6 +67,8 @@ const displayWords = (data) => {
       </div>
     `;
   }
+
+    manageSpinner(false);
 };
 
 const loadWordDetails = async (id) => {
@@ -90,13 +94,40 @@ const displayWordDetails = (wordData) => {
     </div>
     <div class="space-y-2">
       <h2 class="text-2xl font-medium font-bangla">Synonyms</h2>
-      <span class="btn btn-primary btn-soft lesson-btn">s1</span>
-      <span class="btn btn-primary btn-soft lesson-btn">s2</span>
-      <span class="btn btn-primary btn-soft lesson-btn">s3</span>
+      <div id="synonyms-container" class="flex flex-wrap gap-2">
+      ${showSynonyms(wordData.synonyms)}
+      </div>
     </div>
   `;
 
   document.getElementById("my_modal_5").showModal();
 };
 
+
+const showSynonyms = (synonyms) => {
+  return synonyms.map(synonym => `<span class="btn btn-outline btn-primary">${synonym}</span>`).join('');
+};
+
+const manageSpinner = (status) => {
+ if(status == true){
+  document.getElementById('spinner').classList.remove('hidden');
+  document.getElementById('words-section').classList.add('hidden');
+ } else {
+  document.getElementById('spinner').classList.add('hidden');
+  document.getElementById('words-section').classList.remove('hidden');
+ }
+};
+
 loadLessons();
+
+document.getElementById('search-btn').addEventListener('click', async () => {
+  const searchInput = document.getElementById('search-input');
+  const searchValue = searchInput.value.trim().toLowerCase();
+  const res = await fetch('https://openapi.programming-hero.com/api/words/all');
+  const wordsObject = await res.json();
+  const wordsArray = wordsObject.data;
+  const filteredWords = wordsArray.filter(wordArray => wordArray.word.toLowerCase().includes(searchValue));
+  displayWords(filteredWords);
+}
+);
+

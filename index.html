@@ -90,33 +90,54 @@
         </div>
       </section>
 
+      <!-- Spinner Section -->
+      <section id="spinner" class="flex justify-center items-center py-10 hidden">
+        <span class="loading loading-bars loading-xl"></span>
+      </section>
+
+      
+      <!-- Search Section -->
+      <div class="join flex justify-center items-center">
+        <div>
+         <label class="input validator join-item">
+          <input id="search-input" type="text" placeholder="Search Vocabulary Now" required />
+        </label>
+        </div>
+       <button id="search-btn" class="btn btn-primary join-item">Search</button>
+      </div>
+  
+
+
+
       <!-- Words Section -->
-       <section id="words-section" class="container bg-base-200 mx-auto rounded-3xl grid grid-cols-3 gap-8">
-       
-        
+        <section id="words-section" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 px-4 md:px-20 py-10 bg-gray-100 rounded-3xl container mx-auto mt-10">
         <div class="text-center col-span-full py-16 space-y-3">
           <p class="text-[#79716bFF] font-bangla">আপনি এখনো কোনো Lesson সিলেক্ট করেননি</p>
           <h2 class="font-bangla font-medium text-3xl">একটি Lesson Select করুন।</h2>
         </div>
-       </section>
+      </section>
 
 
-       <!-- Open the modal using ID.showModal() method -->
-<!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
-
-<dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+      <!-- Word Details Modal -->
+      <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
   <div class="modal-box">
    <div id="word-details" class="space-y-16">
      </div>
-    <div class="modal-action">
+    <div class="modal-action justify-start">
       <form method="dialog">
-        <!-- if there is a button in form, it will close the modal -->
-        <button class="btn">Close</button>
+        
+        <button class="btn btn-primary">Complete Learning</button>
       </form>
     </div>
   </div>
-</dialog>
+      </dialog>
+
+      
     
       <script src="script/script.js"></script>
 </body>
 </html>
+
+
+
+
