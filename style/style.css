@@ -1,12 +1,28 @@
-*{
-    font-family: 'Poppins', sans-serif;
+* {
+  font-family: "Poppins", sans-serif;
 }
 
-.font-bangla{
-    font-family: 'Hind Siliguri', sans-serif;
+.font-bangla {
+  font-family: "Hind Siliguri", sans-serif;
 }
 
-.active{
-    background-color: #422AD5;
-    color: white;
+.active {
+  background-color: #422ad5;
+  color: white;
+}
+
+.faq-answer {
+  overflow: hidden;
+  max-height: 240px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: max-height 0.35s ease, opacity 0.25s ease, transform 0.25s ease,
+    margin-top 0.25s ease;
+}
+
+.faq-collapsed {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-6px);
+  margin-top: 0 !important;
 }

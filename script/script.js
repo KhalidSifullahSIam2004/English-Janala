@@ -1,5 +1,7 @@
 const loadLessons = async () => {
-  const res = await fetch("https://openapi.programming-hero.com/api/levels/all");
+  const res = await fetch(
+    "https://openapi.programming-hero.com/api/levels/all",
+  );
   const object = await res.json();
   const data = object.data;
   displayLessons(data);
@@ -22,7 +24,9 @@ const displayLessons = (data) => {
 
 const loadLevelWords = async (levelNo) => {
   manageSpinner(true);
-  const res = await fetch(`https://openapi.programming-hero.com/api/level/${levelNo}`);
+  const res = await fetch(
+    `https://openapi.programming-hero.com/api/level/${levelNo}`,
+  );
   const object = await res.json();
   const data = object.data;
 
@@ -48,13 +52,13 @@ const displayWords = (data) => {
         <h2 class="font-bangla font-medium text-3xl">নেক্সট Lesson এ যান</h2>
       </div>
     `;
-      manageSpinner(false);
+    manageSpinner(false);
     return;
   }
 
   for (const singleData of data) {
     wordsSection.innerHTML += `
-      <div class="rounded-xl bg-white space-y-6 text-center py-13 px-16">
+      <div class="rounded-xl bg-white space-y-6 text-center py-10 px-6 md:py-13 md:px-16">
         <h1 class="text-[#000000FF] text-2xl font-bold">${singleData.word ? singleData.word : "Word not found"}</h1>
         <p class="text-[#000000FF] font-medium">Meaning / Pronunciation</p>
         <p class="text-[#18181bFF] text-2xl font-bangla font-semibold">
@@ -68,11 +72,13 @@ const displayWords = (data) => {
     `;
   }
 
-    manageSpinner(false);
+  manageSpinner(false);
 };
 
 const loadWordDetails = async (id) => {
-  const res = await fetch(`https://openapi.programming-hero.com/api/word/${id}`);
+  const res = await fetch(
+    `https://openapi.programming-hero.com/api/word/${id}`,
+  );
   const wordObject = await res.json();
   const wordData = wordObject.data;
   displayWordDetails(wordData);
@@ -80,7 +86,6 @@ const loadWordDetails = async (id) => {
 
 const displayWordDetails = (wordData) => {
   const wordDetails = document.getElementById("word-details");
-
 
   wordDetails.innerHTML = `
     <div class="space-y-2 mb-8">
@@ -103,36 +108,67 @@ const displayWordDetails = (wordData) => {
   document.getElementById("my_modal_5").showModal();
 };
 
-
 const showSynonyms = (synonyms) => {
-  return synonyms.map(synonym => `<span class="btn btn-outline btn-primary">${synonym}</span>`).join('');
+  return synonyms
+    .map(
+      (synonym) =>
+        `<span class="btn btn-outline btn-primary">${synonym}</span>`,
+    )
+    .join("");
 };
 
 const manageSpinner = (status) => {
- if(status == true){
-  document.getElementById('spinner').classList.remove('hidden');
-  document.getElementById('words-section').classList.add('hidden');
- } else {
-  document.getElementById('spinner').classList.add('hidden');
-  document.getElementById('words-section').classList.remove('hidden');
- }
+  if (status == true) {
+    document.getElementById("spinner").classList.remove("hidden");
+    document.getElementById("words-section").classList.add("hidden");
+  } else {
+    document.getElementById("spinner").classList.add("hidden");
+    document.getElementById("words-section").classList.remove("hidden");
+  }
 };
 
 loadLessons();
 
-document.getElementById('search-btn').addEventListener('click', async () => {
-  const searchInput = document.getElementById('search-input');
+document.getElementById("search-btn").addEventListener("click", async () => {
+  const searchInput = document.getElementById("search-input");
   const searchValue = searchInput.value.trim().toLowerCase();
-  const res = await fetch('https://openapi.programming-hero.com/api/words/all');
+  const res = await fetch("https://openapi.programming-hero.com/api/words/all");
   const wordsObject = await res.json();
   const wordsArray = wordsObject.data;
-  const filteredWords = wordsArray.filter(wordArray => wordArray.word.toLowerCase().includes(searchValue));
+  const filteredWords = wordsArray.filter((wordArray) =>
+    wordArray.word.toLowerCase().includes(searchValue),
+  );
   displayWords(filteredWords);
-}
-);
+});
 
 function pronounceWord(word) {
   const utterance = new SpeechSynthesisUtterance(word);
   utterance.lang = "en-EN"; // English
   window.speechSynthesis.speak(utterance);
 }
+
+const initializeFAQ = () => {
+  const faqItems = document.querySelectorAll(".faq-item");
+
+  faqItems.forEach((item) => {
+    const toggleButton = item.querySelector(".faq-toggle");
+    const answer = item.querySelector(".faq-answer");
+    if (!toggleButton || !answer) return;
+
+    toggleButton.addEventListener("click", () => {
+      const isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
+
+      if (isExpanded) {
+        answer.classList.add("faq-collapsed");
+        toggleButton.textContent = "+";
+        toggleButton.setAttribute("aria-expanded", "false");
+      } else {
+        answer.classList.remove("faq-collapsed");
+        toggleButton.textContent = "-";
+        toggleButton.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+};
+
+initializeFAQ();
